@@ -12,11 +12,8 @@ client.on('message', msg => {
   const content = msg.content;
   const matches = content.match(/^!(\S*?)(?:$|\s)/);
 
-  console.log(`matches: ${JSON.stringify(matches)}`);
-
   if (matches && matches.length >= 2) {
     const command = matches[1];
-    console.log(`got command: ${command}`)
     fs.stat(path.resolve('./responses', `${command}.js`), (err, stats) => {
       if (!err && stats) {
         require(`./responses/${command}.js`)(msg);

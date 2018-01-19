@@ -1,5 +1,4 @@
 module.exports = msg => {
-  // msg.reply('You searched for something!');
   const content = msg.content;
   const matches = content.match(/^!(?:\S*?)\s(.*?)$/);
 
