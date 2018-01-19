@@ -1,11 +1,11 @@
+const util = require('../util');
+
 module.exports = msg => {
-  const content = msg.content;
-  const matches = content.match(/^!(?:\S*?)\s(.*?)$/);
+  const query = util.getArgs(msg);
 
-  if (matches && matches.length >= 2) {
-    const query = matches[1];
-
-    msg.reply(`You searched for '${query}'!`);
+  if (query) {
+    msg.reply(`You searched for ${query}!`);
+  } else {
+    msg.reply('You didn\'t search for anything!');
   }
-
 }

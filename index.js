@@ -3,6 +3,7 @@ const client = new Discord.Client();
 const fs = require('fs');
 const path = require('path');
 require('dotenv').config();
+require('./db');
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}`);
