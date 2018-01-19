@@ -4,7 +4,7 @@ module.exports = msg => {
   const args = util.getArgs(msg);
 
   if (args) {
-    msg.reply(`Trying to add video with title: ${args}...`);
+    msg.reply(`Trying to add video with title: '${args}'...`);
     const { add } = require('../db/model/video');
     add({
       title:args,

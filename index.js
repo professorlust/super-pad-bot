@@ -6,6 +6,7 @@ require('dotenv').config();
 require('./db');
 
 client.on('ready', () => {
+  client.user.setUsername('SuperPaddyBot');
   console.log(`Logged in as ${client.user.tag}`);
 });
 
