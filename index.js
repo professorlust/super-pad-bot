@@ -6,7 +6,7 @@ require('dotenv').config();
 require('./db');
 
 client.on('ready', () => {
-  client.user.setUsername('SuperPaddyBot');
+  // client.user.setUsername('SuperPaddyBot').catch(e => console.error(e)); // careful, nodemon might make this fire too often, and Discord doesn't like it
   console.log(`Logged in as ${client.user.tag}`);
 });
 
