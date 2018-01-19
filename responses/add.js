@@ -57,6 +57,7 @@ module.exports = msg => {
 
     if (!videoId) {
       msg.reply(`Can't get the video id out of what you sent: ("${args}") :confused:`);
+      return;
     }
 
     fetchVideoInfo(videoId)
@@ -64,17 +65,19 @@ module.exports = msg => {
         return addVideo(videoData);
       }, errData => {
         console.error("=== ERROR: YOUTUBE ===")
-        console.error(JSON.stringify(errData, null ,1));
         msg.reply('Sorry! I couldn\'t find that video! I\'m dumb! :upside_down:');
+        return Promise.reject(errData);
       })
       .then(added => {
         if (added) {
           msg.reply(`Successfully added ${added.title} (${added.videoId}). Woohoo! :grin:`);
         } else {
           console.error("=== ERROR: MONGOOSE ===");
-          console.error(JSON.stringify(added, null ,1));
           msg.reply('I had some trouble adding your video. Sorry. :sob:');
         }
+      })
+      .catch(err => {
+        console.error(JSON.stringify(err, null ,1));
       });
   }
 }
