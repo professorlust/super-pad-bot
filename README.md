@@ -11,10 +11,10 @@ Discord bot for serving up Youtube videos.
 Add a video to the database
 
 ```
-!search [QUERY]
+!random
 ```
 
-Searches the database...doesn't actually do anything.
+Serves up a random video from the database
 
 ## Upcoming Commands
 
@@ -25,10 +25,10 @@ Searches the database...doesn't actually do anything.
 Removes a video from the database
 
 ```
-!random
+!search [QUERY]
 ```
 
-Serves up a random video from the database
+Searches the database...
 
 ## Upcoming Features
 

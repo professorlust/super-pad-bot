@@ -21,3 +21,14 @@ module.exports.add = vidobj => {
 module.exports.findByVideoId = videoId => {
   return Video.find({ videoId })
 }
+
+module.exports.randomVideo = () => {
+  return Video.count().exec()
+    .then(count => {
+      if (isNaN(count)) return Promise.reject(count);
+
+      const skip = Math.floor(Math.random() * count);
+
+      return Video.findOne().skip(skip)
+    })
+}
