@@ -32,7 +32,7 @@ module.exports.youtubeNotify = (channel_id, cb) => {
 
   if (!subscriber) {
     subscriber = pubsubhubbub.createServer(opts);
-    subscriber.listen(port, 'localhost');
+    subscriber.listen(port);
 
     subscriber.on('error', data => {
       console.log('error');
