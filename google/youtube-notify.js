@@ -7,8 +7,11 @@ const dpad_channel_id = "UC_fsb-5q3QH-CXJ79YgrWfg";
 const topic_base = `https://www.youtube.com/xml/feeds/videos.xml?channel_id=`;
 const hub = "https://pubsubhubbub.appspot.com/subscribe";
 
+const port = process.env.PSHB_PORT || 1337;
+const callback_url = process.env.PSHB_CALLBACK_URL;
+
 const opts = {
-  callbackUrl:process.env.PSHB_CALLBACK_URL
+  callbackUrl:`${callback_url}`
 };
 
 let subscriber = null;
@@ -29,7 +32,7 @@ module.exports.youtubeNotify = (channel_id, cb) => {
 
   if (!subscriber) {
     subscriber = pubsubhubbub.createServer(opts);
-    subscriber.listen(1337);
+    subscriber.listen(port, 'localhost');
 
     subscriber.on('error', data => {
       console.log('error');
@@ -41,7 +44,7 @@ module.exports.youtubeNotify = (channel_id, cb) => {
       console.log(JSON.stringify(data, null, 1));
     });
 
-    subscriber.on('listen', () => { doSubscribe(topic) });
+    subscriber.on('listen', () => { console.log(`listening on:${JSON.stringify(subscriber.server.address())}`); doSubscribe(topic) });
   } else {
     doSubscribe(topic);
   }
