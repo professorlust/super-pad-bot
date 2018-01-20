@@ -7,7 +7,7 @@ const dpad_channel_id = "UC_fsb-5q3QH-CXJ79YgrWfg";
 const topic_base = `https://www.youtube.com/xml/feeds/videos.xml?channel_id=`;
 const hub = "https://pubsubhubbub.appspot.com/subscribe";
 
-const port = process.env.PSHB_PORT || 1337;
+const port = process.env.PORT || 1337;
 const callback_url = process.env.PSHB_CALLBACK_URL;
 
 const opts = {
