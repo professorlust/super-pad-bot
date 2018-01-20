@@ -6,7 +6,7 @@ require('dotenv').config();
 require('./db');
 const { youtubeNotify, default_channel_id, esaevian_channel_id } = require('./google/youtube-notify');
 
-const prod = process.end.NODE_ENV === 'production';
+const prod = process.env.NODE_ENV === 'production';
 
 const guildIsDev = guild => guild.name.indexOf('dev') >= 0;
 
