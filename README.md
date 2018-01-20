@@ -22,7 +22,7 @@ Serves up a random video from the database
 
 ## Features
 
-Will post the most recent 
+Will post the most recent Youtube video for a specified channel (currently hardcoded to esaevian on dev, or The D-Pad on prod)
 
 ## Upcoming Commands
 
