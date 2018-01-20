@@ -60,7 +60,7 @@ module.exports = msg => {
       return;
     }
 
-    fetchVideoInfo(videoId)
+    return fetchVideoInfo(videoId)
       .then(videoData => {
         return addVideo(videoData);
       }, errData => {
@@ -70,14 +70,17 @@ module.exports = msg => {
       })
       .then(added => {
         if (added) {
-          msg.reply(`Successfully added ${added.title} (${added.videoId}). Woohoo! :grin:`);
+          return msg.reply(`Successfully added ${added.title} (${added.videoId}). Woohoo! :grin:`);
         } else {
           console.error("=== ERROR: MONGOOSE ===");
-          msg.reply('I had some trouble adding your video. Sorry. :sob:');
+          return msg.reply('I had some trouble adding your video. Sorry. :sob:');
         }
       })
       .catch(err => {
         console.error(JSON.stringify(err, null ,1));
+        return err;
       });
+  } else {
+    return null;
   }
 }

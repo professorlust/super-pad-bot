@@ -29,7 +29,7 @@ module.exports.esaevian_channel_id = esaevian_channel_id;
 
 module.exports.youtubeNotify = (channel_id, cb) => {
   const topic = `${topic_base}${channel_id}`;
-
+  
   if (!subscriber) {
     subscriber = pubsubhubbub.createServer(opts);
     subscriber.listen(port);

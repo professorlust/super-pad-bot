@@ -8,6 +8,8 @@ const { youtubeNotify, default_channel_id, esaevian_channel_id } = require('./go
 
 const prod = process.env.NODE_ENV === 'production';
 
+let dev_react = "\u2692"; //hammerpick
+
 const target_channel = prod ? default_channel_id : esaevian_channel_id;
 
 const guildIsDev = guild => guild.name.indexOf('dev') >= 0;
@@ -20,7 +22,12 @@ client.on('ready', () => {
   youtubeNotify(target_channel, data => {
     client.guilds.forEach(guild => {
       if (shouldProcessMessage(guild)) 
-        guild.systemChannel.send(`Yo! Check this out! http://youtube.com/watch?v=${data.videoId}`);
+        guild.systemChannel.send(`Yo! Check this out! http://youtube.com/watch?v=${data.videoId}`)
+          .then(message => {
+            if (!prod) {
+              message.react(dev_react)
+            }
+          });
     });
   });
 });
@@ -35,9 +42,17 @@ client.on('message', msg => {
     const command = matches[1];
     fs.stat(path.resolve('./responses', `${command}.js`), (err, stats) => {
       if (!err && stats) {
-        require(`./responses/${command}.js`)(msg);
+        const msg_promise = require(`./responses/${command}.js`)(msg);
+        if (msg_promise && msg_promise.then) {
+          msg_promise.then(message => {
+            if (!prod) message.react(dev_react)
+          })
+        }
       } else {
-        msg.reply(`I don\'t understand the command: ${command}`);
+        msg.reply(`I don\'t understand the command: ${command}`)
+          .then(message => {
+            if (!prod) message.react(dev_react);
+          });
       }
     });
   }
