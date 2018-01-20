@@ -6,18 +6,26 @@ require('dotenv').config();
 require('./db');
 const { youtubeNotify, default_channel_id, esaevian_channel_id } = require('./google/youtube-notify');
 
+const prod = process.end.NODE_ENV === 'production';
+
+const guildIsDev = guild => guild.name.indexOf('dev') >= 0;
+
+const shouldProcessMessage = guild => (prod && !guildIsDev(guild)) || (!prod && guildIsDev(guild));
+
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}`);
 
-  youtubeNotify(esaevian_channel_id, data => {
+  youtubeNotify(default_channel_id, data => {
     client.guilds.forEach(guild => {
-      // guild.systemChannel.send(`\`\`\`${JSON.stringify(data, null, 1)}\`\`\``);
-      guild.systemChannel.send(`Yo! Check this out! http://youtube.com/watch?v=${data.videoId}`);
+      if (shouldProcessMessage(guild)) 
+        guild.systemChannel.send(`Yo! Check this out! http://youtube.com/watch?v=${data.videoId}`);
     });
   });
 });
 
 client.on('message', msg => {
+  if (!shouldProcessMessage(guild)) return;
+
   const content = msg.content;
   const matches = content.match(/^!(\S*?)(?:$|\s)/);
 
