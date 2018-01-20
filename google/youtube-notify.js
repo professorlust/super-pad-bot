@@ -1,5 +1,6 @@
 const pubsubhubbub = require('pubsubhubbub');
 const { parseString } = require('xml2js');
+require('dotenv').config();
 
 const esaevian_channel_id = "UC-axOOcVezH71BqO9zYw_OQ"; 
 const dpad_channel_id = "UC_fsb-5q3QH-CXJ79YgrWfg";
@@ -7,7 +8,7 @@ const topic_base = `https://www.youtube.com/xml/feeds/videos.xml?channel_id=`;
 const hub = "https://pubsubhubbub.appspot.com/subscribe";
 
 const opts = {
-  callbackUrl:"http://10d7ea1b.ngrok.io"
+  callbackUrl:process.env.PSHB_CALLBACK_URL
 };
 
 let subscriber = null;
