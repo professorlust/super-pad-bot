@@ -2,6 +2,10 @@
 
 Discord bot for serving up Youtube videos.
 
+## Add to Server
+
+https://discordapp.com/oauth2/authorize?client_id=403746447453061120&scope=bot
+
 ## Commands
 
 ```
