@@ -29,7 +29,7 @@ module.exports.esaevian_channel_id = esaevian_channel_id;
 
 module.exports.youtubeNotify = (channel_id, cb) => {
   const topic = `${topic_base}${channel_id}`;
-  
+
   if (!subscriber) {
     subscriber = pubsubhubbub.createServer(opts);
     subscriber.listen(port);
@@ -61,8 +61,14 @@ module.exports.youtubeNotify = (channel_id, cb) => {
           }
           cb(vidobj);
         });
+
+        console.log('=== (youtubeNotify) DEBUG: feed ===');
+        console.log(JSON.stringify(data.feed.toString(), null, 1));
       } else {
         cb(null);
+
+        console.error('=== (youtubeNotify) ERROR: feed ===');
+        console.error(data);
       }
     }
   })

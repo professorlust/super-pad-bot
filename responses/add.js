@@ -64,23 +64,25 @@ module.exports = msg => {
       .then(videoData => {
         return addVideo(videoData);
       }, errData => {
-        console.error("=== ERROR: YOUTUBE ===")
-        msg.reply('Sorry! I couldn\'t find that video! I\'m dumb! :upside_down:');
-        return Promise.reject(errData);
+        console.error("=== (add) ERROR: YOUTUBE ===");
+        console.error(errData);
+        return msg.reply('Sorry! I couldn\'t find that video! I\'m dumb! :upside_down:');
       })
       .then(added => {
         if (added) {
           return msg.reply(`Successfully added ${added.title} (${added.videoId}). Woohoo! :grin:`);
         } else {
-          console.error("=== ERROR: MONGOOSE ===");
+          console.error("=== (add) ERROR: MONGOOSE ===");
+          console.error(added);
           return msg.reply('I had some trouble adding your video. Sorry. :sob:');
         }
       })
       .catch(err => {
-        console.error(JSON.stringify(err, null ,1));
-        return err;
+        console.error("=== (add) ERROR ===")
+        console.error(err);
+        return msg.reply(`Whoops. I broke while getting the video info. :flushed:`);
       });
   } else {
-    return null;
+    return msg.reply(`Uh...did you mean to add a URL in there? :rolling_eyes:`);
   }
 }

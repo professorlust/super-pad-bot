@@ -4,9 +4,10 @@ module.exports = msg => {
   return randomVideo()
     .then(result => {
       const vidLink = `https://youtube.com/watch?v=${result.videoId}`;
-      return msg.reply(`Check this one out! ${vidLink}`);
+      return msg.reply(`Check this one out! ${vidLink} :popcorn:`);
     })
     .catch(err => {
+      console.error("=== (random) ERROR ===");
       console.error(err);
       return msg.reply('Whoops! I had trouble grabbing that. :confounded:');
     })
