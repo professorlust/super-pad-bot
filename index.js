@@ -8,6 +8,8 @@ const { youtubeNotify, default_channel_id, esaevian_channel_id } = require('./go
 
 const prod = process.env.NODE_ENV === 'production';
 
+const target_channel = prod ? default_channel_id : esaevian_channel_id;
+
 const guildIsDev = guild => guild.name.indexOf('dev') >= 0;
 
 const shouldProcessMessage = guild => (prod && !guildIsDev(guild)) || (!prod && guildIsDev(guild));
@@ -15,7 +17,7 @@ const shouldProcessMessage = guild => (prod && !guildIsDev(guild)) || (!prod && 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}`);
 
-  youtubeNotify(default_channel_id, data => {
+  youtubeNotify(target_channel, data => {
     client.guilds.forEach(guild => {
       if (shouldProcessMessage(guild)) 
         guild.systemChannel.send(`Yo! Check this out! http://youtube.com/watch?v=${data.videoId}`);
