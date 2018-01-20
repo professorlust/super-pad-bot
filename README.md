@@ -27,6 +27,12 @@ Will post the most recent Youtube video for a specified channel (currently hardc
 ## Upcoming Commands
 
 ```
+!changelog // OR !lastupdate
+```
+
+Reads the last update notes from `./changlog.txt` (Or something).
+
+```
 !remove [YOUTUBE_VIDEO_URL]
 ```
 
