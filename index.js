@@ -4,10 +4,17 @@ const fs = require('fs');
 const path = require('path');
 require('dotenv').config();
 require('./db');
+const { youtubeNotify, default_channel_id, esaevian_channel_id } = require('./google/youtube-notify');
 
 client.on('ready', () => {
-  // client.user.setUsername('SuperPaddyBot').catch(e => console.error(e)); // careful, nodemon might make this fire too often, and Discord doesn't like it
   console.log(`Logged in as ${client.user.tag}`);
+
+  youtubeNotify(esaevian_channel_id, data => {
+    client.guilds.forEach(guild => {
+      // guild.systemChannel.send(`\`\`\`${JSON.stringify(data, null, 1)}\`\`\``);
+      guild.systemChannel.send(`Yo! Check this out! http://youtube.com/watch?v=${data.videoId}`);
+    });
+  });
 });
 
 client.on('message', msg => {
