@@ -38,6 +38,12 @@ Removes a video from the database
 
 Searches the database.
 
+```
+!poll [QUESTION]
+```
+
+Creates a poll where people vote with reactions.
+
 ## Upcoming Features / Bugfixes
 
 - Verify `youtubeNotify` response for `created` event, so bot doesn't post for `update` events.
