@@ -24,7 +24,7 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
-  if (!shouldProcessMessage(guild)) return;
+  if (!shouldProcessMessage(msg.guild)) return;
 
   const content = msg.content;
   const matches = content.match(/^!(\S*?)(?:$|\s)/);
