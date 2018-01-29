@@ -20,6 +20,11 @@ client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}`);
 
   youtubeNotify(target_channel, data => {
+    if (!data || !data.videoId) {
+      console.log("Bot: No notification.");
+      return;
+    }
+
     client.guilds.forEach(guild => {
       if (shouldProcessMessage(guild)) 
         guild.systemChannel.send(`Yo! Check this out! http://youtube.com/watch?v=${data.videoId}`)

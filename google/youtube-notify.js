@@ -1,3 +1,5 @@
+const { exists, add } = require('../db/model/notification');
+
 const pubsubhubbub = require('pubsubhubbub');
 const { parseString } = require('xml2js');
 require('dotenv').config();
@@ -59,7 +61,13 @@ module.exports.youtubeNotify = (channel_id, cb) => {
             channelId:result.feed.entry[0]['yt:channelId'][0],
             videoId:result.feed.entry[0]['yt:videoId'][0]
           }
-          cb(vidobj);
+          checkIfNotified(vidobj.videoId)
+            .then(notified => {
+              cb(!notified ? vidobj : null);
+              if (notified && vidobj && vidobj.videoId) {
+                console.log('Skipping notification: Already notified for: '+vidobj.videoId);
+              }
+            });
         });
 
         console.log('=== (youtubeNotify) DEBUG: feed ===');
@@ -72,5 +80,18 @@ module.exports.youtubeNotify = (channel_id, cb) => {
       }
     }
   })
+}
+
+const checkIfNotified = videoId => {
+  return exists(videoId)
+    .then(results => {
+      const notified =  results && results.length ? true : false;
+      if (!notified) {
+        return add({ videoId })
+          .then(added => notified);
+      } else {
+        return notified;
+      }
+    })
 }
 
