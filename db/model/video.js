@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+class VideoExistsError extends Error {}
+module.exports.VideoExistsError = VideoExistsError;
+
 const videoSchema = new Schema({
   title: String,
   videoId: String,
@@ -18,8 +21,11 @@ module.exports.add = vidobj => {
   vid.channelId = vidobj.channelId;
   vid.time = vidobj.time;
 
-  console.log("Saving video: "+JSON.stringify(vid));
-  console.log("\t got vidobj: "+JSON.stringify(vidobj));
+  return Video.find({ videoId:vidobj.videoId })
+    .then(results => {
+      if (!results || !results.length) return vid.save();
+      else throw new VideoExistsError('Video Exists');
+    })
 
   return vid.save();
 }

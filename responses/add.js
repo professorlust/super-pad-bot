@@ -1,5 +1,6 @@
 const util = require('../util');
 const { videoInfo } = require('../google');
+const { VideoExistsError } = require('../db/model/video');
 
 const youtubeRegEx = new RegExp(/youtu(?:\.be|be\.com)\/(?:.*v(?:\/|=)|(?:.*\/)?)([a-zA-Z0-9-_]{11})/);
 const parseYoutubeId = str => {
@@ -84,19 +85,24 @@ module.exports = msg => {
         return msg.reply('Sorry! I couldn\'t find that video! I\'m dumb! :upside_down:');
       })
       .then(added => {
-        if (added) {
+        if (added && added.videoId) {
           return msg.reply(`Successfully added ${added.title} (${added.videoId}). Woohoo! :grin:`);
         } else {
           console.error("=== (add) ERROR: MONGOOSE ===");
           console.error(added);
-          return msg.reply('I had some trouble adding your video. Sorry. :sob:');
+          return msg.reply('I had some trouble adding your video to the database. Sorry. :sob:');
         }
       })
       .catch(err => {
         console.error("=== (add) ERROR ===")
         console.error(err);
-        return msg.reply(`Whoops. I broke while getting the video info. :flushed:`);
-      });
+        if (err instanceof VideoExistsError) {
+          return msg.reply('Whoops! I already have that video in the database! :flushed:');
+        } else {
+          return msg.reply(`Whoops. I broke while getting the video info. :flushed:`);
+        }
+      })
+      
   } else {
     return msg.reply(`Uh...did you mean to add a URL in there? :rolling_eyes:`);
   }

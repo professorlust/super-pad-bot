@@ -12,7 +12,7 @@ https://discordapp.com/oauth2/authorize?client_id=403746447453061120&scope=bot
 !add [YOUTUBE_VIDEO_URL]
 ```
 
-Add a video to the database
+Add a video to the database. If there's a timestamp (`&t=[time]`), this is taken into account as well
 
 ```
 !random
@@ -52,10 +52,11 @@ Creates a poll where people vote with reactions.
 
 ## Upcoming Features / Bugfixes
 
-- Verify `youtubeNotify` response for `created` event, so bot doesn't post for `update` events.
-  - Can either try to clean this from atom feed, or on first post add it to the database, and check db before posting 'new' video.
-  - First method is preferred.
-- `!add` takes note of timecodes in the URL, and saves that info into the database as well.
+~~- Verify `youtubeNotify` response for `created` event, so bot doesn't post for `update` events.~~
+  ~~- Can either try to clean this from atom feed, or on first post add it to the database, and check db before posting 'new' video.~~
+  ~~- First method is preferred.~~
+  - This is using a notification database. Still slow occasionally
+~~- `!add` takes note of timecodes in the URL, and saves that info into the database as well.~~ added 2/12/2018
 - `!add` checking db for existing videos.
 - Tagging videos
 - `!search` actually doing something. Perhaps searching by name to return an ID, which can be used for tagging.
