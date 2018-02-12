@@ -10,12 +10,26 @@ const parseYoutubeId = str => {
 
   if(matches && matches.length == 2) {
     const videoId = matches[1];
-    if (videoId && typeof videoId == 'string' && videoId.trim() !== '') {
+    if (videoId && typeof videoId === 'string' && videoId.trim() !== '') {
       return videoId;
     }
   }
 
   return null;
+}
+
+const timeRegEx = new RegExp(/[?&]t=([^&?]+?)(?:$|&|\?)/);
+const parseYoutubeTime = str => {
+ const matches = str.match(timeRegEx);
+
+ if (matches && matches.length == 2) {
+  const time = matches[1];
+  if (time && typeof time === 'string' && time.trim() !== '') {
+    return time;
+  }
+ }
+
+ return null;
 }
 
 const fetchVideoInfo = videoId => {
@@ -41,8 +55,8 @@ const fetchVideoInfo = videoId => {
 
 const addVideo = videoData => {
   const { add } = require('../db/model/video');
-  const { title, channelId, videoId } = videoData;
-  const vidobj = { title, channelId, videoId };
+  const { title, channelId, videoId, time } = videoData;
+  const vidobj = { title, channelId, videoId, time };
 
   return add(vidobj);
 }
@@ -54,6 +68,7 @@ module.exports = msg => {
     msg.reply(`Trying to add video:... :thinking:`);
 
     const videoId = parseYoutubeId(args);
+    const time = parseYoutubeTime(args);
 
     if (!videoId) {
       msg.reply(`Can't get the video id out of what you sent: ("${args}") :confused:`);
@@ -62,7 +77,7 @@ module.exports = msg => {
 
     return fetchVideoInfo(videoId)
       .then(videoData => {
-        return addVideo(videoData);
+        return addVideo({...videoData, time});
       }, errData => {
         console.error("=== (add) ERROR: YOUTUBE ===");
         console.error(errData);

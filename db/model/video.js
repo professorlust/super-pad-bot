@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 const videoSchema = new Schema({
   title: String,
   videoId: String,
-  channelId: String
+  channelId: String,
+  time: String,
 });
 
 const Video = mongoose.model('Video', videoSchema);
@@ -15,6 +16,11 @@ module.exports.add = vidobj => {
   vid.title = vidobj.title;
   vid.videoId = vidobj.videoId;
   vid.channelId = vidobj.channelId;
+  vid.time = vidobj.time;
+
+  console.log("Saving video: "+JSON.stringify(vid));
+  console.log("\t got vidobj: "+JSON.stringify(vidobj));
+
   return vid.save();
 }
 
